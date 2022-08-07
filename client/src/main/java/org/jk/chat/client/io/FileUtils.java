@@ -22,6 +22,8 @@ public final class FileUtils {
         } catch (IOException e) {
             System.err.println("error: can not save file " + fileName + "error: " + e);
         }
+
+        System.out.println("saved file: " + file.getName() + " as: " + fileName);
     }
 
 

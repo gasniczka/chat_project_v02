@@ -109,7 +109,7 @@ public class ActionDispatcher {
                     TransferObject responseObject = TransferObject.builder()
                             .clientId(SERVER_CLIENT)
                             .receipient(transferObject.getClientId())
-                            .message("availablefiles: \n" + FileUtils.getFilesToDownload())
+                            .message("available files: \n" + FileUtils.getFilesToDownload())
                             .build();
 
                     eventBus.publish(SEND_MESSAGE, responseObject);

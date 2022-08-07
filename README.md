@@ -1,32 +1,59 @@
 # chatv2 Project
 
-guide do jms   https://quarkus.io/guides/jms
-https://activemq.apache.org/components/artemis/documentation/latest/management-console.html
-https://activemq.apache.org/components/artemis/documentation/latest/using-jms.html
 
-uruchom activemq artemis 
-z wiersza polecen
-docker run -it --rm -p 8161:8161 -p 61616:61616 -p 5672:5672 -e AMQ_USER=quarkus -e AMQ_PASSWORD=quarkus quay.io/artemiscloud/activemq-artemis-broker:0.1.4
-lub z docker-compose.yml
+----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- 
+user manual
 
-dostęp do konsoli
-http://127.0.0.1:8161/console
+
+1) przygotuj strukture katalogów w katalogu głownym 
+
+`/chatClientFiles/`
+`/chatServerFiles/`
+
+
+2) uruchom 
+
+a) activemq artemis 
+z wiersza polecen     `docker run -it --rm -p 8161:8161 -p 61616:61616 -p 5672:5672 -e AMQ_USER=quarkus -e AMQ_PASSWORD=quarkus quay.io/artemiscloud/activemq-artemis-broker:0.1.4`
+lub z     `docker-compose.yml`
+
+b) server chatu - ChatV2
+
+c) klienta chatu - client
+
+
+po uruchomieniu klienta i wpisaniu w konsoli `//?` wyświetli się menu chatu
+
+wpisanie dowolnego ciągu znaku spowoduje wysłanie wiadomości do wszystkich klientów oraz servera jako jednostki zarządzającej 
+
+
+----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- 
+
+dostęp do konsoli artemis
+`http://127.0.0.1:8161/console`
 user/pass quarkus/quarkus
 
 topiki definiowane przez consumera i producera
 
 
 endpoint restowy do przykładu
-http://localhost:8080/hello
+`http://localhost:8080/hello`
+
+dwa endpointy do obsługi upload i download plików wymagają MultipartBody
+`http://localhost:8080/files/upload`
+`http://localhost:8080/files/download` 
 
 
 dostęp do konsoli H2
-http://localhost:8080/h2
+`http://localhost:8080/h2`
 
 
+----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- 
+inne
 
-
-
+guide do jms   https://quarkus.io/guides/jms
+https://activemq.apache.org/components/artemis/documentation/latest/management-console.html
+https://activemq.apache.org/components/artemis/documentation/latest/using-jms.html
 
 
 

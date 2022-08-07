@@ -9,7 +9,11 @@ public enum Action {
     VIEW_FILES("//vf", "view files to download"),
     SEND_FILE("//sf", "send file fileName"),
     DOWNLOAD_FILE("//df", "download file fileName"),
-    VIEW_HISTORY("//vh", "view chat history");
+    VIEW_HISTORY("//vh", "view chat history"),
+    SEND_FILE_REST("//sfrest", "send file fileName by rest"),
+    DOWNLOAD_FILE_REST("//dfrest", "download file fileName by rest")
+    ;
+
 
     private final String value;
     private final String description;
@@ -38,13 +42,15 @@ public enum Action {
 
     public static final String HELP_MESSAGE = """
             USER HELP INFO\s
-            \t //?             - view help info\s
-            \t //vr            - view rooms\s
-            \t //sr roomName   - change room to roomName\s
-            \t //vf            - view files to download\s
-            \t //sf fileName   - send file fileName\s
-            \t //df fileName   - download file fileName\s
-            \t //vh            - view chat history\s
+            \t //?                 - view help info\s
+            \t //vr                - view rooms\s
+            \t //sr roomName       - change room to roomName\s
+            \t //vf                - view files to download\s
+            \t //sf fileName       - send file fileName\s
+            \t //df fileName       - download file fileName\s
+            \t //vh                - view chat history\s
+            \t //sfrest fileName   - send file fileName using rest\s
+            \t //dfrest fileName   - download file fileName using rest\s
             """;
 
 }
