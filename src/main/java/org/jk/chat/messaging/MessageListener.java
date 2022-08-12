@@ -93,7 +93,7 @@ public class MessageListener implements Runnable {
                     actionDispatcher.dispatch(body);
 
                 } else {
-                    log.info(" -> MessageListener.run, message = " + message.getBody(String.class));
+                    log.info(" -> MessageListener.run, simple message = " + message.getBody(String.class));
                 }
 
             } catch (JMSException e) {

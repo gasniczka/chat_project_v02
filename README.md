@@ -20,7 +20,7 @@ lub z     `docker-compose.yml`
 b) server chatu - ChatV2
 
 c) klienta chatu - client
-
+klientow nalezy skonfigurowac podajac im rozne porty: Edit Configurations -> Environment -> Runner -> VM options =   -Dquarkus.http.port=8888
 
 po uruchomieniu klienta i wpisaniu w konsoli `//?` wyświetli się menu chatu
 

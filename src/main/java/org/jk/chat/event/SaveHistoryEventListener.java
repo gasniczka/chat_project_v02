@@ -9,7 +9,6 @@ import org.jk.chat.database.HistoryObject;
 import org.jk.chat.ports.HistoryRepository;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import static org.jk.chat.event.EventActions.SAVE_HISTORY;
@@ -21,7 +20,7 @@ public class SaveHistoryEventListener {
 
     private final HistoryRepository historyRepository;
 
-    @Inject
+
     public SaveHistoryEventListener(HistoryRepository historyRepository) {
 
         this.historyRepository = historyRepository;

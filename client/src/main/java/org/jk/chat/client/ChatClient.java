@@ -4,23 +4,21 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Singleton;
 import java.util.Random;
 
 
 @Getter
-@ApplicationScoped
+// @ApplicationScoped
+// can be destroyed and recreated at runtime
+// Existing injection points just work because the injected proxy delegates to the current instance.
+@Singleton
 public class ChatClient {
 
 
-    private String clientId = String.format("ID_%s", StringUtils.leftPad(String.valueOf(new Random().nextInt(100)), 5, "0"));
+    private final String clientId = String.format("ID_%s", StringUtils.leftPad(String.valueOf(new Random().nextInt(100)), 5, "0"));
 
     @Setter
     private String room = "general";
-
-
-    public boolean doAcceptMessage(String clientId, String room) {
-        return this.clientId.equals(clientId) || this.room.equals(room);
-    }
 
 }

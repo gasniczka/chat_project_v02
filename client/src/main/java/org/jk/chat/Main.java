@@ -22,7 +22,6 @@ public class Main implements QuarkusApplication {
 
         // wysyłanie informacji
         MessageProducer messageProducer = Arc.container().instance(MessageProducer.class).get();
-
         messageProducer.sendMessage("Hello !!! - send by client Main.run");
 
 

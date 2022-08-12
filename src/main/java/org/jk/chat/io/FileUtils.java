@@ -9,14 +9,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
 
+import static org.jk.chat.common.Configuration.JOINING_DELIMITER;
+
 
 @Log
 public final class FileUtils {
 
     private static final String SERVER_FILES_DIRECTORY = "/chatServerFiles/";
-
-    private static final String JOINING_DELIMITER = "\n";
-
 
     public static String getFilesToDownload() {
 
@@ -65,7 +64,7 @@ public final class FileUtils {
     public static void saveFile(File file, byte[] fileContent) {
 
         String fileName = SERVER_FILES_DIRECTORY + file.getName();
-
+        log.info("fileName: " + fileName);
         try {
             Files.write(new File(fileName).toPath(), fileContent);
         } catch (IOException e) {

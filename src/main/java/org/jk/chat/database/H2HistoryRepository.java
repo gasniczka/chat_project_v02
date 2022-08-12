@@ -51,7 +51,6 @@ public class H2HistoryRepository implements HistoryRepository {
 
         List<HistoryObject> historyObjectList = entityManager
                 .createNativeQuery(nativeQuery, HistoryObject.class)
-//                .createQuery("from HistoryObject o where o.chatRoom = :room order by o.id", HistoryObject.class)
                 .setParameter("clientId", clientId)
                 .getResultList();
 

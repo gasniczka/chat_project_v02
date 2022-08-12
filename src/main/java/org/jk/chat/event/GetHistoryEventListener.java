@@ -10,10 +10,9 @@ import org.jk.chat.database.HistoryObject;
 import org.jk.chat.ports.HistoryRepository;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.util.stream.Collectors;
 
-import static org.jk.chat.domain.ActionDispatcher.SERVER_CLIENT;
+import static org.jk.chat.common.Configuration.SERVER_CLIENT;
 import static org.jk.chat.event.EventActions.GET_HISTORY;
 import static org.jk.chat.event.EventActions.SEND_MESSAGE;
 
@@ -25,7 +24,7 @@ public class GetHistoryEventListener {
     private final HistoryRepository historyRepository;
     private final EventBus eventBus;
 
-    @Inject
+
     public GetHistoryEventListener(HistoryRepository historyRepository, EventBus eventBus) {
         this.historyRepository = historyRepository;
         this.eventBus = eventBus;

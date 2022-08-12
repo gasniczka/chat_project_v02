@@ -7,8 +7,6 @@ import lombok.extern.java.Log;
 import org.jk.chat.common.TransferObject;
 import org.jk.chat.messaging.MessageProducer;
 
-import javax.inject.Inject;
-
 import static org.jk.chat.event.EventActions.SEND_MESSAGE;
 
 
@@ -17,8 +15,9 @@ public class SendMessageEventListener {
 
     private final MessageProducer messageProducer;
 
-    @Inject
+
     public SendMessageEventListener(MessageProducer messageProducer) {
+
         this.messageProducer = messageProducer;
     }
 

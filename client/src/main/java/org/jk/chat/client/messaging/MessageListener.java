@@ -8,7 +8,7 @@ import org.jk.chat.common.TransferObject;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
-import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSConsumer;
 import javax.jms.JMSContext;
@@ -23,15 +23,15 @@ import java.util.concurrent.Executors;
  * prepares JMS listener and waits for a message
  */
 @Log
-@ApplicationScoped
+@Singleton
 public class MessageListener implements Runnable {
 
     private static final String JMS_TOPIC = "chat";
 
     private final ConnectionFactory connectionFactory;
-    private final JMSContext context;
-    private final JMSConsumer messageConsumer;
-    private final Topic topic;
+//    private final JMSContext context;
+//    private final JMSConsumer messageConsumer;
+//    private final Topic topic;
 
     private final ExecutorService scheduler = Executors.newSingleThreadExecutor();
     private final ActionDispatcher actionDispatcher;
@@ -45,17 +45,16 @@ public class MessageListener implements Runnable {
     }
 
 
-    @Inject
     public MessageListener(ConnectionFactory connectionFactory,
                            ActionDispatcher actionDispatcher) {
 
         log.info(" -> MessageListener.constructor");
 
         this.connectionFactory = connectionFactory;
-        this.context = connectionFactory.createContext(JMSContext.AUTO_ACKNOWLEDGE);
-
-        this.topic = context.createTopic(JMS_TOPIC);
-        this.messageConsumer = context.createConsumer(this.topic);
+//        this.context = connectionFactory.createContext(JMSContext.AUTO_ACKNOWLEDGE);
+//
+//        this.topic = context.createTopic(JMS_TOPIC);
+//        this.messageConsumer = context.createConsumer(this.topic);
 
         this.actionDispatcher = actionDispatcher;
 
@@ -67,6 +66,12 @@ public class MessageListener implements Runnable {
     public void run() {
 
         log.info(" -> MessageListener.run, start message listener ");
+
+        JMSContext context = connectionFactory.createContext(JMSContext.AUTO_ACKNOWLEDGE);
+
+        Topic topic = context.createTopic(JMS_TOPIC);
+        JMSConsumer messageConsumer = context.createConsumer(topic);
+
 
         while (true) {
 
@@ -85,13 +90,12 @@ public class MessageListener implements Runnable {
 
                     TransferObject body = (TransferObject) object;
 
-
                     log.info(" -> MessageListener.run, message = " + body.getClientId() + "@" + body.getChatRoom() + " " + body.getMessage());
 
-                actionDispatcher.dispatch(body);
+                    actionDispatcher.dispatch(body);
 
                 } else {
-                    log.info(" -> MessageListener.run, message = " + message.getBody(String.class));
+                    log.info(" -> MessageListener.run, simple message = " + message.getBody(String.class));
                 }
 
             } catch (JMSException e) {

@@ -11,7 +11,6 @@ import org.jk.chat.common.Action;
 import org.jk.chat.common.TransferObject;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.EnumSet;
@@ -31,14 +30,18 @@ public class CommandInterpreter {
 
     private static final String SPLIT_SEPARATOR = " ";
 
-    @Inject
-    MessageProducer messageProducer;
+    private final MessageProducer messageProducer;
 
-    @Inject
-    ChatClient chatClient;
+    private final ChatClient chatClient;
 
-    @Inject
-    RestMultipartSendService restSendService;
+    private final RestMultipartSendService restSendService;
+
+
+    public CommandInterpreter(MessageProducer messageProducer, ChatClient chatClient, RestMultipartSendService restSendService) {
+        this.messageProducer = messageProducer;
+        this.chatClient = chatClient;
+        this.restSendService = restSendService;
+    }
 
 
     public void interpret(String text) {
@@ -98,7 +101,7 @@ public class CommandInterpreter {
                     .clientId(chatClient.getClientId())
                     .chatRoom(chatClient.getRoom())
                     .receipient(SERVER_CLIENT)
-                    .message(text)
+                    .command(text)
                     .build();
 
             messageProducer.sendTransferObject(transferObject);
@@ -108,13 +111,14 @@ public class CommandInterpreter {
 
         final EnumSet<Action> complexRequestActions = EnumSet.of(CHANGE_ROOM, DOWNLOAD_FILE);
 
-        if (complexRequestActions.contains(Action.getByValue(command[0]))) {
+        if (complexRequestActions.contains(Action.getByValue(command[0])) && command.length > 1) {
 
             TransferObject transferObject = TransferObject.builder()
                     .clientId(chatClient.getClientId())
                     .chatRoom(chatClient.getRoom())
                     .receipient(SERVER_CLIENT)
-                    .message(text)
+                    .command(command[0])
+                    .message(command[1])
                     .build();
 
             messageProducer.sendTransferObject(transferObject);
@@ -122,10 +126,10 @@ public class CommandInterpreter {
         }
 
 
-        if (Action.DOWNLOAD_FILE_REST == Action.getByValue(command[0])) {
+        if (Action.DOWNLOAD_FILE_REST == Action.getByValue(command[0]) && command.length > 1) {
 
             System.out.println("ask for file: " + command[1]);
-            MultipartBody response = null;
+            MultipartBody response;
 
             try {
 
@@ -142,7 +146,7 @@ public class CommandInterpreter {
             if (response == null || StringUtils.isBlank(response.fileName)) {
 
                 System.out.println("no file attached");
-                return ;
+                return;
             }
 
             System.out.println("response.filename: " + response.fileName);
@@ -162,7 +166,7 @@ public class CommandInterpreter {
 
         if (Action.SEND_FILE == Action.getByValue(command[0])) {
 
-            if ((command.length == 1) || (command.length > 1 && StringUtils.isBlank(command[1]))) {
+            if (command.length == 1) {
                 System.out.println("filename is not specified");
                 return;
             }
@@ -178,7 +182,7 @@ public class CommandInterpreter {
                 TransferObject transferObject = TransferObject.builder()
                         .clientId(chatClient.getClientId())
                         .receipient(SERVER_CLIENT)
-                        .message(text)
+                        .command(command[0])
                         .file(file)
                         .fileContent(fileContent)
                         .build();
@@ -192,7 +196,7 @@ public class CommandInterpreter {
 
         if (Action.SEND_FILE_REST == Action.getByValue(command[0])) {
 
-            if ((command.length == 1) || (command.length > 1 && StringUtils.isBlank(command[1]))) {
+            if (command.length == 1) {
                 System.out.println("filename is not specified");
                 return;
             }

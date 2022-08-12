@@ -18,6 +18,7 @@ public class TransferObject implements Serializable {
     String clientId;
     String chatRoom;
     String receipient;
+    String command;
     String message;
     File file;
     byte[] fileContent;

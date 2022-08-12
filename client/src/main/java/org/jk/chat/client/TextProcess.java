@@ -3,20 +3,17 @@ package org.jk.chat.client;
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
 import lombok.extern.java.Log;
-import org.jk.chat.client.CommandInterpreter;
-import org.jk.chat.common.TransferObject;
+import org.jk.chat.client.ports.TextReader;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
-import javax.inject.Inject;
-import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
 @Log
 @ApplicationScoped
-public class ConsoleReader implements Runnable {
+public class TextProcess implements Runnable {
 
     private final ExecutorService scheduler = Executors.newSingleThreadExecutor();
 
@@ -29,10 +26,14 @@ public class ConsoleReader implements Runnable {
         scheduler.shutdown();
     }
 
+    private final CommandInterpreter commandInterpeter;
 
+    private final TextReader textReader;
 
-    @Inject
-    CommandInterpreter commandInterpeter;
+    public TextProcess(CommandInterpreter commandInterpeter, TextReader textReader) {
+        this.commandInterpeter = commandInterpeter;
+        this.textReader = textReader;
+    }
 
 
     @Override
@@ -44,17 +45,9 @@ public class ConsoleReader implements Runnable {
     public void read() {
 
         String text;
-
-        TransferObject transferObject;
-
-
-        while ((text = new Scanner(System.in).nextLine()) != null) {
-
+        while ((text = textReader.readLine()) != null) {
             commandInterpeter.interpret(text);
-
         }
-
     }
-
 
 }

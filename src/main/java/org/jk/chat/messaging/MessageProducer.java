@@ -47,7 +47,7 @@ public class MessageProducer {
     public void sendTransferObject(TransferObject transferObject) {
         log.info(" -> MessageProducer.sendTransferObject message = %s".formatted(transferObject.getMessage()));
         ObjectMessage objectMessage = context.createObjectMessage(transferObject);
-        messageProducer.send(topic, transferObject);
+        messageProducer.send(topic, objectMessage);
     }
 
 
